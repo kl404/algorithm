@@ -2,46 +2,50 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArray = function(nums) {
-    quickSort(nums, 0, nums.length - 1);
-    return nums;
+var sortArray = function (nums) {
+  heapSort(nums);
+  return nums;
 };
 
-
-/* 快速排序 */
-function quickSort(nums, left, right) {
-    // 子数组长度为 1 时终止递归
-    if (left >= right) return;
-    // 哨兵划分
-    const pivot = partition(nums, left, right);
-    // 递归左子数组、右子数组
-    quickSort(nums, left, pivot - 1);
-    quickSort(nums, pivot + 1, right);
-}
-
-
-/* 元素交换 */
-function swap(nums, i, j) {
-    let tmp = nums[i];
-    nums[i] = nums[j];
-    nums[j] = tmp;
-}
-
-/* 哨兵划分 */
-function partition(nums, left, right) {
-    // 以 nums[left] 为基准数
-    let i = left,
-        j = right;
-    while (i < j) {
-        while (i < j && nums[j] >= nums[left]) {
-            j -= 1; // 从右向左找首个小于基准数的元素
-        }
-        while (i < j && nums[i] <= nums[left]) {
-            i += 1; // 从左向右找首个大于基准数的元素
-        }
-        // 元素交换
-        swap(nums, i, j); // 交换这两个元素
+/* 堆化 */
+/**
+ * 堆化函数 - 将以root为根节点的子树调整为最大堆
+ * @param {number[]} heap 待调整的堆数组
+ * @param {number} root 当前需要堆化的根节点索引
+ * @param {number} heapLen 堆的有效长度
+ */
+function maxHeapify(heap, root, heapLen) {
+  let p = root; // p为当前节点
+  while (p * 2 + 1 < heapLen) { // 当左子节点存在时继续循环
+    let l = p * 2 + 1, // 左子节点索引
+      r = p * 2 + 2;   // 右子节点索引
+    let next; // 记录较大子节点的索引
+    if (heapLen <= r || heap[r] < heap[l]) { // 如果右子节点不存在或左子节点更大
+      next = l; // 选择左子节点
+    } else {
+      next = r; // 选择右子节点
     }
-    swap(nums, i, left); // 将基准数交换至两子数组的分界线
-    return i; // 返回基准数的索引
+    if (heap[p] < heap[next]) { // 如果当前节点小于子节点中的较大值
+      [heap[p], heap[next]] = [heap[next], heap[p]]; // 交换位置
+      p = next; // 继续向下调整
+    } else {
+      break; // 已经满足最大堆性质，退出循环
+    }
+  }
+}
+
+/* 建堆：倒着将每个非叶子节点进行堆化 */
+function buildHeap(heap) {
+  for (let i = Math.floor(heap.length / 2) - 1; i >= 0; i--) {
+    maxHeapify(heap, i, heap.length);
+  }
+}
+
+/* 堆排序 */
+function heapSort(nums) {
+  buildHeap(nums);
+  for (let i = nums.length - 1; i >= 0; i--) {
+    [nums[i], nums[0]] = [nums[0], nums[i]];
+    maxHeapify(nums, 0, i);
+  }
 }
