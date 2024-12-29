@@ -4,21 +4,19 @@
  */
 var subsets = function(nums) {
     const res=[];
-    dfs([],res,0,nums);
+    dfs([],0,res,nums);
     return res;
 };
 
-function dfs(state,res,i,nums){
-    if(i === nums.length){
+
+
+function dfs(state,i,res,nums){
+    if(i===nums.length){
         res.push([...state]);
         return;
     }
-    
-    // 不选当前数字
-    dfs(state,res,i+1,nums);
-    
-    // 选当前数字
+    dfs(state,i+1,res,nums);
     state.push(nums[i]);
-    dfs(state,res,i+1,nums);
+    dfs(state,i+1,res,nums);
     state.pop();
 }

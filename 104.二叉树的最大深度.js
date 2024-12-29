@@ -10,20 +10,26 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var maxDepth = function(root) {
-    let maxDepth=0;
-    dfs(root,0);
+var maxDepth = function (root) {
+  let maxDepth = 0;
+  dfs(root, 0);
 
+  function dfs(root, i) {
+    if (!root) return;
 
-
-
-    function dfs(root,i){
-        if(!root) return;
-        
-        maxDepth=Math.max(maxDepth,i+1);
-        dfs(root.left,i+1);
-        dfs(root.right,i+1);
-    }
-    return maxDepth;
+    const curDepth = i + 1;
+    maxDepth = Math.max(maxDepth, curDepth);
+    dfs(root.left, curDepth);
+    dfs(root.right, curDepth);
+  }
+  return maxDepth;
 };
 
+function dfs(root, i) {
+  if (!root) return;
+
+  const curDepth = i + 1;
+  maxDepth = Math.max(maxDepth, curDepth);
+  dfs(root.left, curDepth);
+  dfs(root.right, curDepth);
+}

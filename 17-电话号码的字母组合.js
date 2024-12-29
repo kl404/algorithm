@@ -5,39 +5,32 @@
 var letterCombinations = function(digits) {
     const res=[];
     if(digits.length===0) return res;
-    dfs([],map[digits[0]],res,digits);
+    dfs([],0,res,digits);
     return res;
-};
+}
 
 
-function dfs(state,choices,res,digits){
-    if(state.length===  digits.length){
+function dfs(state,i,res,digits){
+    if(state.length === digits.length){
         res.push(state.join(''));
         return;
     }
-    
-    choices.forEach(choice=>{
+    const choices=map[digits[i]];
+    for(let choice of choices){
         state.push(choice);
-       
-
-        choices=[];
-        if(state.length<digits.length){
-            choices=map[digits[state.length]];
-        }
-        
-        dfs(state,choices,res,digits);
+        dfs(state,i+1,res,digits);
         state.pop();
-    })
-}   
+    }
+}
 
 
-const map = {
-    '2': ['a', 'b', 'c'],
-    '3': ['d', 'e', 'f'],
-    '4': ['g', 'h', 'i'],
-    '5': ['j', 'k', 'l'],
-    '6': ['m', 'n', 'o'],
-    '7': ['p', 'q', 'r', 's'],
-    '8': ['t', 'u', 'v'],
-    '9': ['w', 'x', 'y', 'z']
-};
+const map ={
+    '2': 'abc',
+    '3': 'def', 
+    '4': 'ghi',
+    '5': 'jkl',
+    '6': 'mno',
+    '7': 'pqrs',
+    '8': 'tuv',
+    '9': 'wxyz'
+}
