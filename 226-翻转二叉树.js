@@ -8,18 +8,18 @@
  */
 /**
  * @param {TreeNode} root
- * @return {number[]}
+ * @return {TreeNode}
  */
-var inorderTraversal = function(root) {
-    const res=[];
-    dfs(root,res);
-    return res;
+var invertTree = function(root) {
+    dfs(root);
+    return root;
 };
 
-
-function dfs(root,res){
+function dfs(root){
     if(!root) return;
-    dfs(root.left,res);
-    res.push(root.val);
-    dfs(root.right,res);
+    dfs(root.left);
+    dfs(root.right);
+    const temp=root.left;
+    root.left=root.right;
+    root.right=temp;
 }
