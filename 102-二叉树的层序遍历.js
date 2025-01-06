@@ -10,25 +10,21 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
-var levelOrder = function (root) {
-  if (!root) return [];
-  const queue = [root];
-  const res = []; // 存储所有节点值
-
-  let depth=0;
-
-  while (queue.length) {
-    let num=queue.length;
-    const values=[];
-    while(num--){
+var levelOrder = function(root) {
+    if(!root) return [];
+    const queue=[root];
+    const res=[];
+    while(queue.length){
+      const length=queue.length;
+      const values=[];
+      for(let i=0;i<length;i++){
         const node=queue.shift();
         values.push(node.val);
         if(node.left) queue.push(node.left);
         if(node.right) queue.push(node.right);
+      }
+      res.push(values);
     }
-    res.push(values);
-
-    depth++;
-  }
-  return res;
+    return res;
 };
+
