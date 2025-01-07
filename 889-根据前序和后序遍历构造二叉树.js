@@ -8,24 +8,23 @@
  */
 /**
  * @param {number[]} preorder
- * @param {number[]} inorder
+ * @param {number[]} postorder
  * @return {TreeNode}
  */
-var buildTree = function(preorder, inorder) {
+var constructFromPrePost = function(preorder, postorder) {
     const n=preorder.length;
     if(n===0) return null;
 
-    
-    const leftSize=inorder.indexOf(preorder[0]);
-    const in1=inorder.slice(0,leftSize);
-    const in2=inorder.slice(leftSize+1,n);
+    const leftSize=postorder.indexOf(preorder[1])+1;
     const pre1=preorder.slice(1,1+leftSize);
     const pre2=preorder.slice(1+leftSize,n);
+    const post1=postorder.slice(0,leftSize);
+    const post2=postorder.slice(leftSize,n-1);
 
 
 
-    const left=buildTree(pre1,in1);
-    const right=buildTree(pre2,in2);
-    const root=new TreeNode(preorder[0],left,right);
+    const left=constructFromPrePost(pre1,post1);
+    const right=constructFromPrePost(pre2,post2);
+    const root=new TreeNode(postorder[n-1],left,right);
     return root;
 };
