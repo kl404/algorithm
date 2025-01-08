@@ -2,33 +2,29 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-var threeSum = function(nums) {
-    let ret=[];
-    nums.sort((a,b)=>a-b);
-    for(let i=0;i<nums.length-2;i++){
-        const x=nums[i];
-        if(x===nums[i-1]) continue;
-        if(x+nums[i+1]+nums[i+2]>0) break;
-        if(x+nums[nums.length-2]+nums[nums.length-1]<0) continue;
-        let left=i+1;
-        let right=nums.length-1;
-        
-        while(left<right){
-            const y=nums[left];
-            const z=nums[right];
-            const sum=x+y+z;
-            if(sum>0){
-                right--;
-            }
-            else if(sum<0){
-                left++;
-            }
-            else{
-                ret.push([x,y,z]);
-                while(left<right && nums[left]===y) left++;
-                while(left<right && nums[right]===z) right--;
-            }
-        }
+var threeSum = function (nums) {
+  nums.sort((a, b) => a - b);
+  const res = [];
+  const length = nums.length;
+  for (let i = 0; i < length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    const target = -nums[i];
+    let left = i + 1;
+    let right = length - 1;
+    while (left < right) {
+      let sum = nums[left] + nums[right];
+      if (sum === target) {
+        res.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+        left++;
+        right--;
+      } else if (sum < target) {
+        left++;
+      } else {
+        right--;
+      }
     }
-    return ret;
+  }
+  return res;
 };
