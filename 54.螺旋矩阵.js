@@ -3,37 +3,48 @@
  * @return {number[]}
  */
 var spiralOrder = function(matrix) {
+    const m = matrix.length;
+    if(m === 0) return [];
+    const n = matrix[0].length;
     const res = [];
-    let m = matrix.length;
-    let n = matrix[0].length;
+    const visited = Array(m).fill().map(() => Array(n).fill(false));
     
-    let top = 0, bottom = m - 1, left = 0, right = n - 1;
-
-    while(left <= right && top <= bottom) {
-        // 从左到右
-        for(let i = left; i <= right; i++) {
-            res.push(matrix[top][i]);
+    const dfs = (i, j, direction) => {
+        if(i < 0 || i >= m || j < 0 || j >= n || visited[i][j]) {
+            return;
         }
-        top++;
-        // 从上到下
-        for(let i = top; i <= bottom; i++) {
-            res.push(matrix[i][right]);
-        }
-        right--;
-        // 从右到左
-        if(top <= bottom) {
-            for(let i = right; i >= left; i--) {
-                res.push(matrix[bottom][i]);
+        
+        visited[i][j] = true;
+        res.push(matrix[i][j]);
+        
+        // 按照右、下、左、上的顺序遍历
+        if(direction === 0) { // 向右
+            if(j + 1 < n && !visited[i][j + 1]) {
+                dfs(i, j + 1, 0);
+            } else {
+                dfs(i + 1, j, 1);
             }
-            bottom--;
-        }
-        // 从下到上
-        if(left <= right) {
-            for(let i = bottom; i >= top; i--) {
-                res.push(matrix[i][left]);
+        } else if(direction === 1) { // 向下
+            if(i + 1 < m && !visited[i + 1][j]) {
+                dfs(i + 1, j, 1);
+            } else {
+                dfs(i, j - 1, 2);
             }
-            left++;
+        } else if(direction === 2) { // 向左
+            if(j - 1 >= 0 && !visited[i][j - 1]) {
+                dfs(i, j - 1, 2);
+            } else {
+                dfs(i - 1, j, 3);
+            }
+        } else { // 向上
+            if(i - 1 >= 0 && !visited[i - 1][j]) {
+                dfs(i - 1, j, 3);
+            } else {
+                dfs(i, j + 1, 0);
+            }
         }
     }
+    
+    dfs(0, 0, 0);
     return res;
 };
