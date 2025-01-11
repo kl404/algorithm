@@ -1,4 +1,2 @@
-let a=1;
-let b=2;
-[a,b]=[b,a]
-console.log(a,b)
+const arr=[1,0,2,0,3];
+console.log(arr.toString());
