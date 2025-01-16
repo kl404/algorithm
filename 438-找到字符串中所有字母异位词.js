@@ -13,7 +13,7 @@ var findAnagrams = function(s, p) {
     }
 
     let right=0;
-    while(right<s.length){
+    while(right<s.length){ 
         sCnt[s[right].charCodeAt()-'a'.charCodeAt()]++;
         const left=right-p.length+1;
         if(left<0){
