@@ -11,25 +11,24 @@
  * @param {_Node} head
  * @return {_Node}
  */
-var copyRandomList = function(head) {
-    if(!head) return null;
-    const map=new Map();
-    const dummy=new _Node(0);
-    let curr=dummy;
-    let p=head;
-    while(p){
-        const node=new _Node(p.val);
-        map.set(p,node);
-        curr.next=node;
-        curr=curr.next;
-        p=p.next;
-    }
-    p=head;
-    curr=dummy.next;
-    while(p){
-        curr.random=map.get(p.random);
-        p=p.next;
-        curr=curr.next;
-    }
-    return dummy.next;
+var copyRandomList = function (head) {
+  if (!head) return null;
+
+  const map = new Map();
+
+  let cur = head;
+  while (cur) {
+    const node = new _Node(cur.val);
+    map.set(cur, node);
+    cur = cur.next;
+  }
+
+  cur = head;
+  while (cur) {
+    const newNode = map.get(cur);
+    newNode.next = cur.next ? map.get(cur.next) : null;
+    newNode.random = cur.random ? map.get(cur.random) : null;
+    cur = cur.next;
+  }
+  return map.get(head);
 };
