@@ -5,29 +5,30 @@
  */
 var findAnagrams = function(s, p) {
     const res=[];
-    const pCnt=new Array(26).fill(0);
-    const sCnt=new Array(26).fill(0);
-
-    for(const ch of p){
-        pCnt[ch.charCodeAt()-'a'.charCodeAt()]++;
+    const countP=new Array(26).fill(0);
+    const countS=new Array(26).fill(0);
+    for(const char of p){
+        countP[char.charCodeAt()-'a'.charCodeAt()]++;
     }
 
+
     let right=0;
-    while(right<s.length){ 
-        sCnt[s[right].charCodeAt()-'a'.charCodeAt()]++;
-        const left=right-p.length+1;
+    let left=0;
+
+    while(right<s.length){
+        countS[s[right].charCodeAt()-'a'.charCodeAt()]++;
+        left=right-p.length+1;
         if(left<0){
             right++;
             continue;
         }
-        if(sCnt.every((val,index)=>val===pCnt[index])){
+
+        if(countP.join('')===countS.join('')){
             res.push(left);
         }
-        sCnt[s[left].charCodeAt()-'a'.charCodeAt()]--;
+        countS[s[left].charCodeAt()-'a'.charCodeAt()]--;
         right++;
     }
 
     return res;
-    
-
 };

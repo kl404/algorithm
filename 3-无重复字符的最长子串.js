@@ -4,20 +4,23 @@
  */
 var lengthOfLongestSubstring = function(s) {
     let left=0,right=0;
-    let max=0;
+    const n=s.length;
     const window=new Map();
-    
-    while(right<s.length){
-        window.set(s[right],(window.get(s[right])||0)+1);
+    let max=0;
 
-        while(window.get(s[right])>1){
-                window.set(s[left],window.get(s[left])-1);
-                left++;
-            }
-            
-        
-        max=Math.max(max,right-left+1);
-        right++;
+
+    while(right<n){
+      const ch = s[right];
+      window.set(ch,(window.get(ch)||0)+1);
+      right++;
+
+      while(window.get(ch)>1){
+        const ch2=s[left];
+        window.set(ch2,window.get(ch2)-1);
+        left++;
+      }
+      max=Math.max(max,right-left);
     }
     return max;
+
 };
