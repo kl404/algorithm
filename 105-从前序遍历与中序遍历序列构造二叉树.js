@@ -23,9 +23,11 @@ var buildTree = function(preorder, inorder) {
     const pre2=preorder.slice(1+leftSize,n);
 
 
-
+    const root=new TreeNode(preorder[0]);
     const left=buildTree(pre1,in1);
     const right=buildTree(pre2,in2);
-    const root=new TreeNode(preorder[0],left,right);
+    root.left=left;
+    root.right=right;
+    // const root=new TreeNode(preorder[0],left,right);
     return root;
 };
