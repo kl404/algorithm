@@ -12,22 +12,25 @@
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-    const n=preorder.length;
-    if(n===0) return null;
-
     
-    const leftSize=inorder.indexOf(preorder[0]);
-    const in1=inorder.slice(0,leftSize);
-    const in2=inorder.slice(leftSize+1,n);
-    const pre1=preorder.slice(1,1+leftSize);
-    const pre2=preorder.slice(1+leftSize,n);
 
 
-    const root=new TreeNode(preorder[0]);
-    const left=buildTree(pre1,in1);
-    const right=buildTree(pre2,in2);
-    root.left=left;
-    root.right=right;
-    // const root=new TreeNode(preorder[0],left,right);
-    return root;
+
+
+    function dfs(preorder,inorder){
+        if(preorder.length==0) return null;
+        const root=new TreeNode(preorder[0]);
+        const mid=inorder.indexOf(preorder[0]);
+        
+        const in1=inorder.slice(0,mid);
+        const in2=inorder.slice(mid+1);
+        const pre1=preorder.slice(1,mid+1);
+        const pre2=preorder.slice(mid+1);
+        
+
+        root.left=dfs(pre1,in1);
+        root.right=dfs(pre2,in2);
+        return root;
+    }
+    return dfs(preorder,inorder);
 };

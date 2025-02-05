@@ -12,20 +12,23 @@
  * @return {TreeNode}
  */
 var buildTree = function(inorder, postorder) {
-    const n=inorder.length;
-    if(n===0) return null;
-
     
-    const leftSize=inorder.indexOf(postorder[n-1]);
-    const in1=inorder.slice(0,leftSize);
-    const in2=inorder.slice(leftSize+1,n);
-    const post1=postorder.slice(0,leftSize);
-    const post2=postorder.slice(leftSize,n-1);
 
 
+    function dfs(inorder,postorder){
+        if(postorder.length==0) return null;
+        const root=new TreeNode(postorder[postorder.length-1]);
 
-    const left=buildTree(in1,post1);
-    const right=buildTree(in2,post2);
-    const root=new TreeNode(postorder[n-1],left,right);
-    return root;
+        const mid=inorder.indexOf(postorder[postorder.length-1]);
+        const in1=inorder.slice(0,mid);
+        const in2=inorder.slice(mid+1);
+        const post1=postorder.slice(0,mid);
+        const post2=postorder.slice(mid,postorder.length-1);
+        
+        root.left=dfs(in1,post1);
+        root.right=dfs(in2,post2);
+
+        return root;
+    }
+    return dfs(inorder,postorder);
 };

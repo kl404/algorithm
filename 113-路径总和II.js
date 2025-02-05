@@ -9,30 +9,27 @@
 /**
  * @param {TreeNode} root
  * @param {number} targetSum
- * @return {number}
+ * @return {number[][]}
  */
 var pathSum = function(root, targetSum) {
     
 
 
-    let count=0;
-    const preSum=new Map();
-    preSum.set(0,1);
 
-    function dfs(node,state){
+    const res=[];
+    function dfs(node,state,path,target){
         if(!node) return;
         state+=node.val;
-        if(preSum.has(state-targetSum)){
-            count+=preSum.get(state-targetSum);
+        path.push(node.val);
+        if(!node.left && !node.right && state==target){
+            res.push([...path]);
         }
-        preSum.set(state,(preSum.get(state)||0) +1);
-        dfs(node.left,state);
-        dfs(node.right,state);
-        preSum.set(state,preSum.get(state)-1);
+        dfs(node.left,state,path,target);
+        dfs(node.right,state,path,target);
+        path.pop();   
     }
-    dfs(root,0);
-    return count;
+    dfs(root,0,[],targetSum);
+    return res;
+
+
 };
-
-
-

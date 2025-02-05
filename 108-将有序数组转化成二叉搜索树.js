@@ -13,6 +13,14 @@
 var sortedArrayToBST = function(nums) {
     
 
-    
+    function dfs(left,right){
+        if(left>right) return null;
+        let mid=Math.floor((left+right)/2);
+        const root=new TreeNode(nums[mid]);
+        root.left=dfs(left,mid-1);
+        root.right=dfs(mid+1,right);
+        return root;
+    }
+    return dfs(0,nums.length-1);
 };
 

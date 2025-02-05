@@ -10,17 +10,23 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
-var rightSideView = function (root) {
-  const res = [];
-  function dfs(root, depth) {
-    if (!root) return;
-    if (depth === res.length) {
-      res.push(root.val);
-    }
-    depth++;
-    dfs(root.right, depth);
-    dfs(root.left, depth);
-  }
-  dfs(root, 0);
-  return res;
+var rightSideView = function(root) {
+    
+    const res=[];
+
+
+
+    function dfs(node,depth){
+        if(!node) return;
+        depth++;
+        if(depth>res.length) res.push(node.val);
+        dfs(node.right,depth);
+        dfs(node.left,depth);
+
+      }
+
+      dfs(root,0);
+      return res;
+      
+
 };

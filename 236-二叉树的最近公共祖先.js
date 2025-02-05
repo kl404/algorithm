@@ -16,34 +16,27 @@ var lowestCommonAncestor = function(root, p, q) {
     const path_q=[];
 
 
-
-    dfs(root,path_p,p);
-    dfs(root,path_q,q);
-
-    let result=null;
-    for(let i=0;i<path_p.length && i<path_q.length;i++){
-        if(path_p[i]===path_q[i]){
-            result=path_p[i];
-        }
-    }
-    return result;
-
-
-
-
-
-
-    function dfs(root,state,target){
-        if(!root) return false;
-        state.push(root);
-        if(root===target){
-            return true;
-        }
-        if(dfs(root.left,state,target)) return true;
-        if(dfs(root.right,state,target)) return true;
-        state.pop();
+    function dfs(node,target,path){
+        if(!node) return false;
+        path.push(node);
+        if(node===target) return true;
+        if(dfs(node.left,target,path)) return true;
+        if(dfs(node.right,target,path)) return true;
+        path.pop();
         return false;
     }
+
+    dfs(root,p,path_p);
+    dfs(root,q,path_q);
+
+    let res=null;
+
+    for(let i=0;i<path_p.length && i<path_q.length;i++){
+        if(path_p[i]===path_q[i]){
+            res=path_p[i];
+        }
+    }
+    return res;
 };
 
 

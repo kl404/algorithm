@@ -10,19 +10,25 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var diameterOfBinaryTree = function(root) {
+var maxPathSum = function(root) {
     
-    let max=0;
+    let maxSum=-Infinity;
+
+
 
     function dfs(node){
         if(!node) return 0;
-        let left=dfs(node.left);
-        let right=dfs(node.right);
-        max=Math.max(max,left+right);
-        return Math.max(left,right)+1;
+        const left=dfs(node.left);
+        const right=dfs(node.right);
+
+        const selfMax=node.val+Math.max(left,0)+Math.max(right,0);
+        maxSum=Math.max(maxSum,selfMax);
+
+        const upMax=node.val + Math.max(left,right,0);
+
+        return upMax;
     }
 
     dfs(root);
-    return max;
-
+    return maxSum;
 };

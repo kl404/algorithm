@@ -12,19 +12,22 @@
  * @return {TreeNode}
  */
 var constructFromPrePost = function(preorder, postorder) {
-    const n=preorder.length;
-    if(n===0) return null;
-
-    const leftSize=postorder.indexOf(preorder[1])+1;
-    const pre1=preorder.slice(1,1+leftSize);
-    const pre2=preorder.slice(1+leftSize,n);
-    const post1=postorder.slice(0,leftSize);
-    const post2=postorder.slice(leftSize,n-1);
+    
 
 
+    function dfs(preorder,postorder){
+        if(preorder.length===0) return null; 
+        const root=new TreeNode(preorder[0]);
 
-    const left=constructFromPrePost(pre1,post1);
-    const right=constructFromPrePost(pre2,post2);
-    const root=new TreeNode(postorder[n-1],left,right);
-    return root;
+        const mid=postorder.indexOf(preorder[1]);
+        const pre1=preorder.slice(1,mid+2);
+        const pre2=preorder.slice(mid+2); 
+        const post1=postorder.slice(0,mid+1);
+        const post2=postorder.slice(mid+1,postorder.length-1);
+        
+        root.left=dfs(pre1,post1);
+        root.right=dfs(pre2,post2);
+        return root; 
+    }
+    return dfs(preorder,postorder);
 };

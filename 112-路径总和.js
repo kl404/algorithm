@@ -12,16 +12,19 @@
  * @return {boolean}
  */
 var hasPathSum = function(root, targetSum) {
-    return dfs(root,0,targetSum);
-};
-
-
-function dfs(root,state,targetSum){
-    if(!root) return false;
     
-    state+=root.val;
-    if(!root.left && !root.right){
-        return state === targetSum;
+
+
+    let flag=false;
+    function dfs(node,state,target){
+        if(!node) return;
+        state+=node.val;
+        if(!node.left && !node.right && state===target) flag=true;
+        dfs(node.left,state,target);
+        dfs(node.right,state,target);
+
     }
-    return dfs(root.left,state,targetSum) || dfs(root.right,state,targetSum);
-}
+    
+    dfs(root,0,targetSum);
+    return flag;
+};
