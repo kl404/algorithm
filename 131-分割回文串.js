@@ -2,37 +2,32 @@
  * @param {string} s
  * @return {string[][]}
  */
-var partition = function(s) {
-    const res=[];
-    dfs([],0,0,res,s);
-    return res;
+var partition = function (s) {
+  const res = [];
+
+  function dfs(state, start) {
+    if (start === s.length) {
+      res.push([...state]);
+      return;
+    }
+
+    for (let i = start; i < s.length; i++) {
+      if (isPalindrome(s, start, i)) {
+        state.push(s.slice(start, i + 1));
+        dfs(state, i + 1);
+        state.pop();
+      }
+    }
+  }
+
+  dfs([], 0);
+  return res;
 };
 
 
-
-function dfs(state,i,start,res,s){
-  if(i===s.length){
-    res.push(state.slice());
-    return;
-  }
-
-  if(i<s.length-1){
-    dfs(state,i+1,start,res,s);
-  }
-
-  if(isPalindrome(s,start,i)){
-    state.push(s.substring(start,i+1));
-    dfs(state,i+1,i+1,res,s);
-    state.pop();
-  }
-}
-
-
-
-
-function isPalindrome(s,left,right){
-  while(left<right){
-    if(s[left]!==s[right]) return false;
+function isPalindrome(s, left, right) {
+  while (left < right) {
+    if (s[left] !== s[right]) return false;
     left++;
     right--;
   }
