@@ -3,25 +3,30 @@
  * @return {boolean}
  */
 var canPartition = function (nums) {
-  const sum = nums.reduce((a, b) => a + b, 0);
+  let sum = nums.reduce((a, b) => a + b, 0);
   if (sum % 2 !== 0) return false;
 
-  const target = sum / 2;
+  let target = sum / 2;
+  // dp[i][j] 表示从前i个数字中是否可以选出和为j的组合
+  let dp = Array(nums.length + 1)
+    .fill()
+    .map(() => Array(target + 1).fill(false));
 
-  // 回溯函数
-  const backtrack = (index, currentSum) => {
-    // 基础情况：如果当前和等于目标值，找到解
-    if (currentSum === target) return true;
-    // 如果超过目标值或已经遍历完所有数字，返回false
-    if (currentSum > target || index >= nums.length) return false;
+  // 初始化：空集合可以得到和为0
+  for (let i = 0; i <= nums.length; i++) {
+    dp[i][0] = true;
+  }
 
-    // 选择当前数字
-    if (backtrack(index + 1, currentSum + nums[index])) return true;
-    // 不选择当前数字
-    if (backtrack(index + 1, currentSum)) return true;
+  // 对于每个数字，可以选择用或不用
+  for (let i = 1; i <= nums.length; i++) {
+    for (let j = 0; j <= target; j++) {
+      if (j >= nums[i - 1]) {
+        dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
+      } else {
+        dp[i][j] = dp[i - 1][j];
+      }
+    }
+  }
 
-    return false;
-  };
-
-  return backtrack(0, 0);
+  return dp[nums.length][target];
 };

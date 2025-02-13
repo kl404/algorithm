@@ -3,13 +3,20 @@
  * @return {number[][]}
  */
 var generate = function(numRows) {
-    let res = [];
+    const dp = new Array(numRows).fill(1).map(()=>new Array(numRows).fill(1));
+
     for(let i=0;i<numRows;i++){
-        let row = new Array(i+1).fill(1);
         for(let j=1;j<i;j++){
-            row[j] = res[i-1][j-1] + res[i-1][j];
+            dp[i][j] = dp[i-1][j-1] + dp[i-1][j];
         }
-        res.push(row);
+    }
+
+    const res=[];
+    for(let i=0;i<numRows;i++){
+        res.push(dp[i].slice(0,i+1));
     }
     return res;
-};
+}; 
+
+
+
