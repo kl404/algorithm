@@ -4,23 +4,22 @@
  */
 var maxProduct = function (nums) {
   const n = nums.length;
-  const cur_min = new Array(n + 1).fill(0);
-  const cur_max = new Array(n + 1).fill(0);
 
-  cur_min[0] = nums[0];
-  cur_max[0] = nums[0];
 
-  for (let i = 1; i < n; i++) {
-    cur_max[i] = Math.max(
-      cur_max[i - 1] * nums[i],
-      cur_min[i - 1] * nums[i],
-      nums[i]
-    );
-    cur_min[i] = Math.min(
-      cur_max[i - 1] * nums[i],
-      cur_min[i - 1] * nums[i],
-      nums[i]
-    );
+  const min_dp = new Array(n+1).fill(0);
+  const max_dp = new Array(n+1).fill(0);
+
+  min_dp[1] = nums[0];
+  max_dp[1] = nums[0];
+
+
+  for(let i=1;i<n;i++){
+    max_dp[i+1] = Math.max(max_dp[i] * nums[i], min_dp[i] * nums[i], nums[i]);
+    min_dp[i+1] = Math.min(max_dp[i] * nums[i], min_dp[i] * nums[i], nums[i]);
   }
-  return Math.max(...cur_max.slice(0, n));
+
+  return Math.max(...(max_dp.slice(1)));
+
+
+
 };

@@ -1,2 +1,4 @@
 const arr=[];
-arr[0].push(1);
+arr[2] = 1;
+console.log(arr[2]);
+console.log(arr)
