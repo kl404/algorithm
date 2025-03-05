@@ -9,32 +9,37 @@
  * @param {ListNode} head
  * @return {boolean}
  */
-var isPalindrome = function (head) {
+var isPalindrome = function(head) {
   const dummy = new ListNode(0, head);
   let slow = dummy;
   let fast = dummy;
-  while (fast && fast.next) {
-    slow = slow.next;
-    fast = fast.next.next;
+  
+  while(fast && fast.next){
+     slow = slow.next;
+     fast = fast.next.next;
   }
 
+  const backHead = slow.next;
   let pre = null;
-  let cur = slow.next;
-  while (cur) {
-    const tmp = cur.next;
+  let cur = backHead;
+  while(cur){
+    const nex = cur.next;
+
     cur.next = pre;
     pre = cur;
-    cur = tmp;
+    cur = nex;
   }
 
-  let left = head;
-  let right = pre;
-  while (right) {
-    if (left.val !== right.val) {
+  
+  while(backHead){
+    if(head.val !== backHead.val){
       return false;
     }
-    left = left.next;
-    right = right.next;
+
+    head = head.next;
+    backHead = backHead.next;
   }
   return true;
+
+
 };

@@ -9,18 +9,16 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-var reverseList = function (head) {
- 
-    let newHead=null;
+var reverseList = function(head) {
+    let pre = null;
+    let cur = head;
 
-    function dfs(head,pre){
-        if(!head) return;
-        if(!head.next){
-            newHead=head;
-        }
-        dfs(head.next,head);
-        head.next=pre;
+    while(cur){
+        const nex = cur.next;
+
+        cur.next = pre;
+        pre = cur;
+        cur = nex;
     }
-    dfs(head,null);
-    return newHead;
+    return pre;
 };

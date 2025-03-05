@@ -10,25 +10,17 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-var detectCycle = function (head) {
-   let slow=head;
-   let fast=head;
-   
+var detectCycle = function(head) {
+    const set = new Set();
 
-   while(fast && fast.next){
-    slow=slow.next;
-    fast=fast.next.next;
-    if(slow===fast){
-        break;
+    while(head){
+      if(set.has(head)){
+        return head;
+      }
+      set.add(head)
+
+
+      head = head.next;
     }
-  }
-
-  if (!fast || !fast.next) return null;
-
-  slow = head;
-  while (slow !== fast) {
-    slow = slow.next;
-    fast = fast.next;
-  }
-  return slow;
+    return null;
 };

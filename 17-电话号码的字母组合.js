@@ -3,7 +3,7 @@
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
-    if(digits.length===0) return [];    
+    if(digits.length === 0) return []
     const map={
         '2':'abc',
         '3':'def',
@@ -15,23 +15,21 @@ var letterCombinations = function(digits) {
         '9':'wxyz'
     }
 
-
-    const res=[];
-
-
-    function dfs(path,depth){
-        if(depth===digits.length){
-            res.push(path);
+    const n = digits.length;
+    const res = [];
+    function dfs(state, depth){
+        if(depth === n){
+            res.push(state);
             return;
         }
-        for(let ch of map[digits[depth]]){
-            path+=ch;
-            depth++;
-            dfs(path,depth);
-            path=path.slice(0,path.length-1);
-            depth--;
+
+        for(let i = 0;i < map[digits[depth]].length; i++){
+            const newState = state + map[digits[depth]][i];
+            dfs(newState, depth + 1);
+
         }
     }
-    dfs('',0);
+
+    dfs('', 0);
     return res;
 };

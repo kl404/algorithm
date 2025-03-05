@@ -6,28 +6,28 @@
  */
 var equalSubstring = function(s, t, maxCost) {
     const n = s.length;
-    const s2t = new Array(n).fill(0);
-    for(let i =0;i<n;i++){
-        s2t[i] = Math.abs(s.charCodeAt(i) - t.charCodeAt(i));
+    const costArr = [];
+    for(let i = 0;i<n;i++){
+        const cost = Math.abs(s.charCodeAt(i) - t.charCodeAt(i));
+        costArr.push(cost);
     }
 
 
     let left = 0;
     let max = 0;
-    let window_cost = 0;
+    let window_sum = 0;
+
+    for(let right = 0; right < n; right++){
+        const cur =  costArr[right];
+        window_sum += cur;
 
 
-    for(let right = 0;right < n; right++){
-        window_cost += s2t[right];
-
-
-        while(window_cost > maxCost){
-            window_cost -= s2t[left];
+        while(window_sum > maxCost){
+            window_sum -= costArr[left];
             left++;
         }
 
-
-        max = Math.max(right - left + 1, max);
+        max = Math.max(max, right - left + 1);
     }
     return max;
 };

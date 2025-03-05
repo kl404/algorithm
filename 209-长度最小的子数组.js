@@ -9,15 +9,17 @@ var minSubArrayLen = function(target, nums) {
     let min = Infinity;
     let window_sum = 0;
 
-    for(let right = 0;right < n;right++){
-        window_sum += nums[right];
+
+    for(let right = 0;right<n;right++){
+        const cur = nums[right];
+        window_sum += cur;
 
         while(window_sum >= target){
-            min = Math.min(right - left + 1,min);
+            min = Math.min(min, right - left +1);
             window_sum -= nums[left];
             left++;
         }
-    }
 
-    return min === Infinity ? 0 : min;
+    }
+    return min===Infinity? 0 : min;
 };

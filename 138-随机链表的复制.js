@@ -1,34 +1,34 @@
-/**
- * // Definition for a _Node.
- * function _Node(val, next, random) {
- *    this.val = val;
- *    this.next = next;
- *    this.random = random;
- * };
- */
+    /**
+     * // Definition for a _Node.
+     * function _Node(val, next, random) {
+     *    this.val = val;
+     *    this.next = next;
+     *    this.random = random;
+     * };
+     */
 
-/**
- * @param {_Node} head
- * @return {_Node}
- */
-var copyRandomList = function (head) {
-  if (!head) return null;
+    /**
+     * @param {_Node} head
+     * @return {_Node}
+     */
+    var copyRandomList = function(head) {
+        const map = new Map();
+        let p = head;
+        
+        while(head){
+            const node = new _Node(p.val);
+            map.set(p, node);
+            p = p.next;
+        }
 
-  const map = new Map();
+       head = p;
+        while(head){
+            const newNode = map.get(head);
+            newNode.next = head.next? map.get(head.next) : null;
+            newNode.random =head.random ?  map.get(head.random) : null;
+            head = head.next;
+        }
 
-  let cur = head;
-  while (cur) {
-    const node = new _Node(cur.val);
-    map.set(cur, node);
-    cur = cur.next;
-  }
+        return map.get(p);
 
-  cur = head;
-  while (cur) {
-    const newNode = map.get(cur);
-    newNode.next = cur.next ? map.get(cur.next) : null;
-    newNode.random = cur.random ? map.get(cur.random) : null;
-    cur = cur.next;
-  }
-  return map.get(head);
-};
+    };
