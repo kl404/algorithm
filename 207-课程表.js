@@ -3,39 +3,34 @@
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
-var canFinish = function (numCourses, prerequisites) {
-  const adjacency = [];
-  const indegrees = new Array(numCourses).fill(0);
+var canFinish = function(numCourses, prerequisites) {
+      const graph = new Array(numCourses).fill(0).map(()=>[]);
+      const indegree = new Array(numCourses).fill(0);
 
-  for ([i, j] of prerequisites) {
-    if (!adjacency[j]) {
-      adjacency[j] = [];
-    }
-    adjacency[j].push(i);
-    indegrees[i]++;
-  }
-
-  const queue = [];
-  for (let i = 0; i < numCourses; i++) {
-    if (indegrees[i] === 0) {
-      queue.push(i);
-    }
-  }
-
-  let count = 0;
-  while (queue.length) {
-    const selected = queue.shift();
-    count++;
-    const toEnqueue = adjacency[selected];
-    if (toEnqueue) {
-      for (let i = 0; i < toEnqueue.length; i++) {
-        indegrees[toEnqueue[i]]--;
-        if (indegrees[toEnqueue[i]] === 0) {
-          queue.push(toEnqueue[i]);
+      for(let [pre, course] of prerequisites){
+        graph[pre].push(course);
+        indegree[course]++;
+      }
+      const queue = [];
+      let learned = 0;
+      for(let i = 0;i<numCourses;i++){                    
+        if(indegree[i] === 0){
+          queue.push(i);
         }
       }
-    }
-  }
 
-  return count === numCourses;
+      while(queue.length){
+        const course = queue.shift();
+        learned++;
+        for(let i = 0;i<graph[course].length;i++){
+          indegree[graph[course][i]]--;
+          if(indegree[graph[course][i]] === 0){
+            queue.push(graph[course][i]);
+          }
+        }
+      }
+
+      if(learned === numCourses) return true
+      else return false; 
+
 };

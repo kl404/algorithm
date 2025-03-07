@@ -10,19 +10,19 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var diameterOfBinaryTree = function(root) {
-    
-    let max=0;
+var diameterOfBinaryTree = function (root) {
+  let max = 0;
+  function dfs(node) {
+    if (!node) return 0; // 空节点高度为0
 
-    function dfs(node){
-        if(!node) return 0;
-        let left=dfs(node.left);
-        let right=dfs(node.right);
-        max=Math.max(max,left+right);
-        return Math.max(left,right)+1;
-    }
+    const leftHeight = dfs(node.left);
+    const rightHeight = dfs(node.right);
 
-    dfs(root);
-    return max;
+    max = Math.max(max, leftHeight + rightHeight); // 计算经过当前节点的最大直径
 
+    return Math.max(leftHeight, rightHeight) + 1; // 返回当前节点的高度
+  }
+
+  dfs(root);
+  return max;
 };

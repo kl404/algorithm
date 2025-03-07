@@ -3,45 +3,52 @@
  * @return {number}
  */
 var orangesRotting = function(grid) {
-    const m=grid.length;
-    const n=grid[0].length;
-    const queue=[];
+  const m = grid.length;
+  const n = grid[0].length;
+  let fresh = 0;
+  let time = 0;
+  let badCnt = 0;
+  const queue = [];
 
-    let freshCnt=0;//新鲜橘子数量
-    for(let i=0;i<m;i++){
-        for(let j=0;j<n;j++){
-            if(grid[i][j]===1) freshCnt++;
-            if(grid[i][j]===2) queue.push([i,j]);
-        }
+  for(let i = 0;i < m;i++){
+    for(let j =0;j<n;j++){
+      if(grid[i][j] == 1){
+        fresh++;
+      }
+      else if(grid[i][j] == 2){
+        queue.push([i, j]);
+      }
+    }
     }
 
-    let time=0;
-    while(freshCnt>0 && queue.length){
-        time++;
-        let num=queue.length;
-        while(num--){
-            const [x,y]=queue.shift();
-            if(x-1>=0&&grid[x-1][y]===1){
-                grid[x-1][y]=2;
-                queue.push([x-1,y]);
-                freshCnt--;
-            }
-            if(x+1<m&&grid[x+1][y]===1){
-                grid[x+1][y]=2;
-                queue.push([x+1,y]);
-                freshCnt--;
-            }
-            if(y-1>=0&&grid[x][y-1]===1){
-                grid[x][y-1]=2;
-                queue.push([x,y-1]);
-                freshCnt--;
-            }
-            if(y+1<n&&grid[x][y+1]===1){
-                grid[x][y+1]=2;
-                queue.push([x,y+1]);
-                freshCnt--;
-            }
-        }
+    function isInGrid(x, y){
+      return x >=0 && x < m && y >=0 && y<n;
     }
-    return freshCnt===0?time:-1;
+
+  const direction = [[1, 0],[-1, 0], [0, 1],[0,-1]]
+  if(fresh == 0) return time;
+  while(queue.length){
+    const levelCnt = queue.length;
+    for(let i = 0;i<levelCnt;i++){
+      const orange = queue.shift();
+      const [x, y] = orange;
+      for(let [delx, dely] of direction){
+        const newX = x + delx;
+        const newY = y + dely;
+        if(isInGrid(newX, newY) && grid[newX][newY] == 1){
+          grid[newX][newY] = 2;
+          badCnt++;
+          queue.push([newX,newY]);
+        }
+      }
+    } 
+    time++;
+  }
+
+if(badCnt !== fresh) return -1;
+return time - 1;
+  
+
+
+
 };

@@ -10,36 +10,42 @@
  * @return {boolean}
  */
 var isPalindrome = function(head) {
-  const dummy = new ListNode(0, head);
+  // 找中间
+  // 后面反转
+  // 对比俩
+
+  const dummy = new ListNode(0,head);
   let slow = dummy;
   let fast = dummy;
-  
   while(fast && fast.next){
-     slow = slow.next;
-     fast = fast.next.next;
+    fast = fast.next.next;
+    slow = slow.next;
   }
 
-  const backHead = slow.next;
-  let pre = null;
-  let cur = backHead;
+  const mid = slow.next;
+  slow.next = null;
+  let pre =null;
+  let cur = mid;
   while(cur){
     const nex = cur.next;
-
     cur.next = pre;
     pre = cur;
     cur = nex;
   }
 
-  
-  while(backHead){
-    if(head.val !== backHead.val){
+
+
+
+
+
+  let rightHead = pre;
+  while(rightHead){
+    if(rightHead.val !== head.val){
       return false;
     }
-
+    rightHead = rightHead.next;
     head = head.next;
-    backHead = backHead.next;
   }
+  
   return true;
-
-
 };

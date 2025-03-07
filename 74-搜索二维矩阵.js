@@ -4,23 +4,29 @@
  * @return {boolean}
  */
 var searchMatrix = function(matrix, target) {
-    const row=matrix.length;
-    const col=matrix[0].length;
-    const total=row*col;
-    let left=0;
-    let right=total-1;
+    const m = matrix.length;
+    const n = matrix[0].length;
+    let i = 0;
+    let j = m * n - 1;
 
-    while(left<=right){
-        const mid=Math.floor((right-left)/2)+left;
-        const x=matrix[Math.floor(mid/col)][mid%col];
-        if(x<target){
-            left=mid+1;
-        }else if(x>target){
-            right=mid-1;
-        }else{
+    function value(a){
+        const row = Math.floor(a / n);
+        const col = a % n;
+        return matrix[row][col];
+    }
+    while(i <= j){
+        const mid = Math.floor((i + j) / 2);
+        if(value(mid) === target){
             return true;
+        }
+        else if(value(mid) < target)
+        {
+            i = mid + 1;
+        }
+        else{
+            j = mid - 1;
         }
     }
     return false;
-};
 
+};      // 72ms  36

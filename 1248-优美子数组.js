@@ -1,25 +1,32 @@
 /**
  * @param {number[]} nums
- * @param {number[]} k
+ * @param {number} k
  * @return {number}
  */
-var numberOfSubarrays = function (nums, k) {
-  const n = nums.length;
-  const map = new Map();
-  map.set(0, 1);
+var numberOfSubarrays = function(nums, k) {
+    
 
-  let preSum = 0;
-  let cnt = 0;
-  for (let i = 0; i < n; i++) {
-    if (nums[i] % 2 != 0) {
-      preSum++;
+
+    let cnt = 0;
+    const map = new Map();
+    let preSum = 0;
+    map.set(preSum, 1);
+
+    for(let i =0; i<nums.length;i++){
+        if(nums[i] % 2 !=0){
+            preSum++;
+        }
+
+        if(map.has(preSum - k)){
+            cnt += map.get(preSum - k);
+        }
+
+
+        map.set(preSum, (map.has(preSum)? map.get(preSum)) + 1)
     }
-    // 当前奇数个数减去k，找到之前出现的次数
-    if (preSum >= k) {
-      cnt += map.get(preSum - k);
-    }
-    // 更新当前奇数个数的出现次数
-    map.set(preSum, (map.get(preSum) || 0) + 1);
-  }
-  return cnt;
+
+
+
+
+    return cnt;
 };

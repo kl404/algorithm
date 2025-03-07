@@ -14,25 +14,28 @@
 var pathSum = function(root, targetSum) {
     
 
+    const map = new Map();
+    map.set(0, 1);
+    let res = 0;
 
-    let count=0;
-    const preSum=new Map();
-    preSum.set(0,1);
 
-    function dfs(node,state){
+    function dfs(node, sum){
         if(!node) return;
-        state+=node.val;
-        if(preSum.has(state-targetSum)){
-            count+=preSum.get(state-targetSum);
+        const preSum = sum + node.val;
+        if(map.has(preSum - targetSum)){
+            res += map.get(preSum - targetSum);
         }
-        preSum.set(state,(preSum.get(state)||0) +1);
-        dfs(node.left,state);
-        dfs(node.right,state);
-        preSum.set(state,preSum.get(state)-1);
+        
+        map.set(preSum, (map.has(preSum) ? map.get(preSum) : 0 ) + 1);
+        dfs(node.left, preSum);
+        dfs(node.right, preSum);
+        map.set(preSum, map.get(preSum) - 1);
+
     }
-    dfs(root,0);
-    return count;
+
+    dfs(root, 0);
+    return res;
+
+
+    
 };
-
-
-

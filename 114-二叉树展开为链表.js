@@ -11,17 +11,20 @@
  * @return {void} Do not return anything, modify root in-place instead.
  */
 var flatten = function(root) {
-    
+    let pre = null;
 
-    let pre=null;
+
     function dfs(node){
         if(!node) return;
-        dfs(node.right);
-        dfs(node.left);
-        node.right=pre;
-        node.left=null;
-        pre=node;
 
-           }
-           dfs(root);
+        dfs(node.right);
+        dfs(node.right);
+        node.right = pre;
+        pre = node;
+        node.left = null;
+    }
+
+    dfs(root);
+
+    
 };

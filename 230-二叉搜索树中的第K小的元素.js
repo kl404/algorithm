@@ -14,19 +14,20 @@
 var kthSmallest = function(root, k) {
     
 
-  let res;
-  let num=0;
 
+
+  let kMin;
+  let cnt = 0;
   function dfs(node){
     if(!node) return;
     dfs(node.left);
-    num++;
-    if(num==k){
-      res=node.val;
+    cnt++;
+    if(cnt === k){
+      kMin = node.val;
       return;
     }
-    dfs(node.right)
+    dfs(node.right);;
   }
   dfs(root);
-  return res;
+  return kMin;
 };

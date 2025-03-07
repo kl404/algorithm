@@ -3,24 +3,24 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function(s) {
-    const n = s.length;
     let left = 0;
-    const window_map = new Map();
+    const map = new Map();
     let max = 0;
 
-    for(let right = 0;right<n; right++){
-        window_map.set(s[right], window_map.has(s[right]) ? window_map.get(s[right]) + 1 : 1);
 
 
-        while(window_map.get(s[right]) > 1){
-            window_map.set(s[left], window_map.get(s[left]) -1 )
+    for(let right = 0;right < s.length; right++){
+        map.set(s[right], (map.has(s[right]) ? map.get(s[right]) : 0)  + 1);
+
+
+        while(map.get(s[right]) > 1){
+            map.set(s[left], map.get(s[left]) - 1);
             left++;
         }
 
-
-        max = Math.max(max, right-left+1);
+        const len = right -left + 1;
+        max = Math.max(max, len);
 
     }
-
     return max;
 };

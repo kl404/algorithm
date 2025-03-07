@@ -13,12 +13,16 @@
 var invertTree = function(root) {
     
 
-    function dfs(root){
-        if(!root) return;
-        dfs(root.left);
-        dfs(root.right);
-        [root.left,root.right]=[root.right,root.left];
+    function dfs(node){
+        if(!node) return;
+
+        dfs(node.left);
+        dfs(node.right);
+        [node.left, node.right] = [node.right, node.left]    
+    
     }
-    dfs(root);
+
+
+
     return root;
 };

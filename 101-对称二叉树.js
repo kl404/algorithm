@@ -13,16 +13,20 @@
 var isSymmetric = function(root) {
     
 
-    function dfs(left,right){
-        if(!left && !right) return true;
-        if(!left || !right) return false;
+    let res = true;
+    function dfs(left, right){
+        if(!left || !right){
+            if(left != right) res = false;
+            return;
+        } 
 
-        if(left.val!==right.val) return false;
-        let res=dfs(left.left,right.right);
-        if(!res) return false;
-        res=dfs(left.right,right.left);
-        if(!res) return false;
-        return true;
+        if(left.val !== right.val) res = false;
+
+        dfs(left.left, right.right);
+        dfs(left.right, right.left);
+        
     }
-    return dfs(root.left,root.right);
+
+    dfs(root.left, root.right);
+    return res;
 };

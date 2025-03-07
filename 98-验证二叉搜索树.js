@@ -12,20 +12,25 @@
  */
 var isValidBST = function(root) {
     
-    let pre=-Infinity;
-    let flag=true;
+    let pre = null;
+    let flag = true;
 
     function dfs(node){
         if(!node) return;
+
         dfs(node.left);
-        if(node.val<=pre){
-            flag=false;
-            return;
+        if(!pre) pre = node.val;
+        else{
+            if(pre >= node.val){
+                flag = false;
+                return;
+            }
         }
-        pre=node.val;
+        pre = node.val;
         dfs(node.right);
     }
+
     dfs(root);
-    return flag;
+    return flag;;
     
 };

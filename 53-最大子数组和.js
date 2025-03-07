@@ -1,27 +1,15 @@
 /**
  * @param {number[]} nums
- * @param {number} k
  * @return {number}
  */
-var longestOnes = function(nums, k) {
-    let left = 0;
+var maxSubArray = function(nums) {
     const n = nums.length;
+    const dp = new Array(n + 1).fill(0);
+    dp[1] = nums[0]
+    for(let i =1;i<n;i++){
+        dp[i + 1] = Math.max(dp[i] + nums[i], nums[i]);
 
-    let window_zeros = 0;
-    let max = 0;
-
-    for(let right =0;right < n; right++){
-        if(nums[right] === 0){
-            window_zeros++;
-        }
-
-        while(window_zeros > k){
-            if(nums[left] === 0){
-                window_zeros--;
-            }
-            left++;
-        }
-        max = Math.max(max, right - left + 1);
     }
-    return max;
+
+    return Math.max([...dp])
 };
