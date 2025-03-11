@@ -10,11 +10,10 @@
  * @return {ListNode}
  */
 var sortList = function(head) {
-    if(!head) return head;
+    if(!head || !head.next) return head;
     const dummy = new ListNode(0, head);
     let slow = dummy;
-    let fast =dummy;
-    let mid = null;
+    let fast = dummy;
 
     while(fast && fast.next){
         slow = slow.next;

@@ -2,31 +2,33 @@
  * @param {number[]} nums
  * @return {boolean}
  */
-var canPartition = function (nums) {
-  let sum = nums.reduce((a, b) => a + b, 0);
-  if (sum % 2 !== 0) return false;
+var canPartition = function(nums) {
+    const sum = nums.reduce((a, b)=> a + b, 0);
+    const target = sum / 2;
 
-  let target = sum / 2;
-  // dp[i][j] 表示从前i个数字中是否可以选出和为j的组合
-  let dp = Array(nums.length + 1)
-    .fill()
-    .map(() => Array(target + 1).fill(false));
-
-  // 初始化：空集合可以得到和为0
-  for (let i = 0; i <= nums.length; i++) {
-    dp[i][0] = true;
-  }
-
-  // 对于每个数字，可以选择用或不用
-  for (let i = 1; i <= nums.length; i++) {
-    for (let j = 0; j <= target; j++) {
-      if (j >= nums[i - 1]) {
-        dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
-      } else {
-        dp[i][j] = dp[i - 1][j];
+    let res = false;
+  
+    const set = new Set();
+    function dfs(depth, curSum){
+      if(depth === nums.length) return;
+      if(res) return;
+      if(curSum === target){
+        res = true;
+        return;
       }
-    }
-  }
+      const key = `${depth}-${curSum}`;
+      if(set.has(key)) return;
 
-  return dp[nums.length][target];
+      set.add(key);
+
+      if(curSum + nums[depth] <= target){
+        dfs(depth + 1, curSum + nums[depth]);
+      }
+      dfs(depth + 1, curSum);
+
+    }
+
+
+    dfs(0, 0)
+    return res;
 };
