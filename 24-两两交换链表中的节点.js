@@ -11,20 +11,21 @@
  */
 var swapPairs = function(head) {
     const dummy = new ListNode(0, head);
-
     let pre = dummy;
     let cur = head;
 
+
     while(cur && cur.next){
-        const nex = cur.next;
-        
-        cur.next = nex.next;
-        nex.next = cur; 
-        pre.next = nex;
+        const nxt = cur.next.next;
+        pre.next = cur.next;
+        cur.next.next = cur;
+        cur.next = nxt;
 
         pre = cur;
         cur = cur.next;
     }
+
     return dummy.next;
-}
-    
+
+
+};

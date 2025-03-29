@@ -4,23 +4,17 @@
  * @return {number}
  */
 var subarraySum = function(nums, k) {
-    
     const map = new Map();
     let cnt = 0;
-
-    let preSum = 0;
-    map.set(preSum, 1);
-    for(let i =0;i<nums.length; i++){
-        preSum += nums[i];
-        
-
-        if(map.has(preSum - k)){
-            cnt += map.get(preSum - k);
+    let curSum = 0;
+    map.set(0, 1)
+    for(let i = 0; i < nums.length; i++){
+        curSum += nums[i];
+        if(map.has(k - curSum)){
+            cnt += map.get(curSum - k);
         }
-
-        map.set(preSum, (map.get(preSum) || 0) + 1);
+            map.set(curSum, map.has(curSum) ? map.get(curSum) + 1 : 1)
         
     }
-
     return cnt;
 };

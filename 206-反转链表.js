@@ -13,12 +13,13 @@ var reverseList = function(head) {
     let pre = null;
     let cur = head;
 
-    while(cur){
-        const nex = cur.next;
 
+    while(cur){
+        const nxt = cur.next;
+        
         cur.next = pre;
         pre = cur;
-        cur = nex;
+        cur = nxt;
     }
-    return pre;
+    
 };

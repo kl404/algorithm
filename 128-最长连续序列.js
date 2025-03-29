@@ -5,16 +5,14 @@
 var longestConsecutive = function(nums) {
     const set = new Set(nums);
     let max = 0;
-    for(let num of set){
-        if(!set.has(num - 1)){
-            let length = 1;
-            while(set.has(num + length)){
-                length++;
-            }
-            max = Math.max(max, length);
-
+    for(let i = 0; i < nums.length; i++){
+        const cur = nums[i];
+        if(set.has(cur - 1)) continue;
+        let len = 1;
+        while(set.has(cur + len)){
+            len++;
         }
+        max = Math.max(max, len);
     }
-
     return max;
 };

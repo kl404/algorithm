@@ -15,11 +15,11 @@ var subsets = function(nums) {
         state.push(nums[depth]);
         dfs(state, depth + 1);
         state.pop();
-        dfs(state, depth + 1);
 
+        dfs(state, depth + 1);
     }
 
-    dfs([], 0);
 
+    dfs([], 0);
     return res;
 };

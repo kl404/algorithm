@@ -11,22 +11,16 @@
  * @return {number[]}
  */
 var inorderTraversal = function(root) {
-    
     const res = [];
 
     function dfs(node){
-        if(!node){
-            return;
-        }
+        if(!node) return;
+
         dfs(node.left);
         res.push(node.val);
         dfs(node.right);
-        
     }
 
     dfs(root);
-
     return res;
-
-
 };

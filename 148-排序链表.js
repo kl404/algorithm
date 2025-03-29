@@ -10,42 +10,48 @@
  * @return {ListNode}
  */
 var sortList = function(head) {
+    return mergeSort(head);
+};
+
+function mergeSort(head){
     if(!head || !head.next) return head;
+
     const dummy = new ListNode(0, head);
     let slow = dummy;
     let fast = dummy;
-
     while(fast && fast.next){
         slow = slow.next;
         fast = fast.next.next;
     }
-
-    mid = slow.next;
+    const h2 = slow.next;
     slow.next = null;
-    let left = sortList(head);
-    let right = sortList(mid);
+
+    const left = mergeSort(head)
+    const right = mergeSort(h2);
     return merge(left, right);
     
-};
+}
 
-function merge(l1, l2){
+function merge(h1, h2){
     const dummy = new ListNode(0);
-    let cur = dummy;
-
-    while(l1 && l2){
-        const v1 = l1.val;
-        const v2 = l2.val;
-        if(v1 <= v2){
-            cur.next = new ListNode(v1);
-            cur = cur.next;
-            l1 = l1.next;
+    let head = dummy;
+    while(h1 && h2){
+        if(h1.val <= h2.val){
+            head.next = h1;
+            head = head.next;
+            h1 = h1.next
         }else{
-            cur.next = new ListNode(v2);
-            cur = cur.next;
-            l2 = l2.next;
+            head.next = h2;
+            head = head.next;
+            h2 = h2.next;
         }
     }
-    cur.next = l1 || l2;
-
+    if(h1){
+        head.next = h1;
+    }
+    if(h2){
+        head.next = h2
+    }
     return dummy.next;
+    
 }

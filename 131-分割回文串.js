@@ -3,22 +3,20 @@
  * @return {string[][]}
  */
 var partition = function(s) {
-
-  const n = s.length;
+ 
   const res = [];
-  function dfs(state, choiceStart){
-    if(choiceStart === n){
+  function dfs(state, start){
+    if(start == s.length){
       res.push([...state]);
-      return;
     }
 
-    for(let i = choiceStart;i < n; i++){
-      if(isBack(s, choiceStart, i)){
-        state.push(s.slice(choiceStart, i + 1));
-        dfs(state, i + 1);
-        state.pop();
-      }
+    for(let i = 1; start + i <= s.length; i++){
+      if(!isBack(s, start, start + i - 1)) continue;
+      state.push(s.slice(start, start + i));
+      dfs(state, start + i);
+      state.pop();
     }
+
   }
 
   dfs([], 0);
@@ -26,15 +24,14 @@ var partition = function(s) {
 };
 
 
-
 function isBack(s, left, right){
-  while(left <= right){
+  while(left < right){
     if(s[left] !== s[right]) return false;
     left++;
     right--;
   }
   return true;
+
 }
 
 
-console.log(isBack('aba', 0, 2))

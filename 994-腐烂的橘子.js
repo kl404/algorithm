@@ -49,6 +49,4 @@ if(badCnt !== fresh) return -1;
 return time - 1;
   
 
-
-
 };

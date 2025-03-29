@@ -5,23 +5,24 @@
  */
 var combine = function(n, k) {
     
-
   const res = [];
-
-   function dfs(state, choiceStart){
-    if(state.length === k){
+  function dfs(state, depth, choiceStart){
+    if(depth === k){
       res.push([...state]);
       return;
-    }
+    }        
+    
+    
     for(let i = choiceStart; i <= n; i++){
       state.push(i);
-      dfs(state, i + 1);
+      dfs(state, depth + 1, i + 1);
       state.pop();
     }
-   }
+  }
 
 
-   dfs([], 1);
+  dfs([], 0, 1);
 
-   return res;
+
+  return res;
 };

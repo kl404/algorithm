@@ -3,32 +3,34 @@
  * @return {boolean}
  */
 var canPartition = function(nums) {
-    const sum = nums.reduce((a, b)=> a + b, 0);
-    const target = sum / 2;
+  const sum = nums.reduce((a, b) =>a + b, 0);
+  if(sum % 2 != 0) return false;
+  const target = sum / 2;
+  let res = false;
 
-    let res = false;
-  
-    const set = new Set();
-    function dfs(depth, curSum){
-      if(depth === nums.length) return;
-      if(res) return;
-      if(curSum === target){
-        res = true;
-        return;
-      }
-      const key = `${depth}-${curSum}`;
-      if(set.has(key)) return;
-
-      set.add(key);
-
-      if(curSum + nums[depth] <= target){
-        dfs(depth + 1, curSum + nums[depth]);
-      }
-      dfs(depth + 1, curSum);
-
+  const memo = new Set();
+  function dfs(depth, sum){
+    if(depth == nums.length){
+      if(sum === target)  res =  true;
+      return;
     }
 
+    if(sum > target) return;
+    const key = `${depth}-${sum}`;
+    if(memo.has(key)) return;
+    memo.add(key);
+    
+    dfs(depth + 1, sum + nums[depth]);
+    dfs(depth + 1, sum);
+    
 
-    dfs(0, 0)
-    return res;
+  }
+
+
+
+  dfs(0, 0);
+  return res;
+
+
+
 };

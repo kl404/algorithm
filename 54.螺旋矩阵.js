@@ -3,50 +3,42 @@
  * @return {number[]}
  */
 var spiralOrder = function (matrix) {
-  if (!matrix || matrix.length === 0) return [];
+  if (!matrix.length) return [];
 
-  const m = matrix.length;
-  const n = matrix[0].length;
   const result = [];
-  const visited = Array(m)
-    .fill()
-    .map(() => Array(n).fill(false));
+  let left = 0;
+  let right = matrix[0].length - 1;
+  let top = 0;
+  let bottom = matrix.length - 1;
 
-  // 方向数组：右、下、左、上
-  const directions = [
-    [0, 1],
-    [1, 0],
-    [0, -1],
-    [-1, 0],
-  ];
-
-  const dfs = (row, col, dirIndex) => {
-    // 将当前元素加入结果
-    result.push(matrix[row][col]);
-    visited[row][col] = true;
-
-    // 尝试四个方向
-    for (let i = 0; i < 4; i++) {
-      // 优先使用当前方向
-      const nextDir = (dirIndex + i) % 4;
-      const nextRow = row + directions[nextDir][0];
-      const nextCol = col + directions[nextDir][1];
-
-      // 检查下一个位置是否有效且未访问
-      if (
-        nextRow >= 0 &&
-        nextRow < m &&
-        nextCol >= 0 &&
-        nextCol < n &&
-        !visited[nextRow][nextCol]
-      ) {
-        dfs(nextRow, nextCol, nextDir);
-        return;
-      }
+  while (left <= right) {
+    // 从左到右（top行）
+    for (let i = left; i <= right; i++) {
+      result.push(matrix[top][i]);
     }
-  };
+    top++;
+    if (top > bottom) break;
 
-  // 从左上角开始，初始方向向右
-  dfs(0, 0, 0);
+    // 从上到下（right列）
+    for (let i = top; i <= bottom; i++) {
+      result.push(matrix[i][right]);
+    }
+    right--;
+    if (left > right) break;
+
+    // 从右到左（bottom行）
+    for (let i = right; i >= left; i--) {
+      result.push(matrix[bottom][i]);
+    }
+    bottom--;
+    if (top > bottom) break;
+
+    // 从下到上（left列）
+    for (let i = bottom; i >= top; i--) {
+      result.push(matrix[i][left]);
+    }
+    left++;
+  }
+
   return result;
 };
